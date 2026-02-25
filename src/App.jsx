@@ -7,6 +7,7 @@ const App = () => {
   const [employees, setEmployees] = useState({});
   const [list, setList] = useState([]);
   const [hobbies, setHobbies] = useState([]);
+  const [error, setError] = useState({});
 
   const handleChange = (e) => {
     let { name, value, checked } = e.target;
@@ -25,13 +26,35 @@ const App = () => {
 
     setEmployees({ ...employees, [name]: value });
   };
+
+  const validation = () => {
+    let err = {};
+
+    if (!employees.image) err.image = "Please Enter Proper URL.";
+    if (!employees.name) err.name = "Please Enter Name.";
+    if (!employees.email) err.email = "Please Enter Email.";
+    if (!employees.password) err.password = "Please Enter Password.";
+    if (!employees.gender) err.gender = "Please Select Gender.";
+    if (!employees.city) err.city = "Please Select City.";
+    if (!employees.hobby || employees.hobby.length == 0) err.hobby = "Please Select Hobby.";
+    if (!employees.address) err.address = "Please Enter Address.";
+    setError(err);
+
+    return Object.keys(err).length == 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(employees);
+    if (!validation()) return;
+    let newList = [...list , {...employees , id : Date.now()}]
+    setList(newList)
     setEmployees({});
-    setHobbies([])
+    setHobbies([]);
+
+    
   };
+  console.log(list);
   return (
     <>
       <Routes>
@@ -43,6 +66,7 @@ const App = () => {
               handleSubmit={handleSubmit}
               employees={employees}
               hobbies={hobbies}
+              error={error}
             />
           }
         />
