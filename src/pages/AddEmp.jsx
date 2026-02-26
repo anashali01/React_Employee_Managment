@@ -7,7 +7,7 @@ const AddEmp = ({ handleChange, handleSubmit, employees, hobbies , error }) => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-4">
-            <h1 className="text-center fw-bolder mb-3">Add Employee Data</h1>
+            <h1 className="text-center fw-bolder mb-3">{employees.id ? "Update" : "Add"} Employee Data</h1>
 
             <form action="" method="post" onSubmit={handleSubmit}>
               {/* Image Url  */}
@@ -180,7 +180,7 @@ const AddEmp = ({ handleChange, handleSubmit, employees, hobbies , error }) => {
               </div>
               {/* Button  */}
               <button type="submit" className="btn btn-info mt-3">
-                Add Employee
+                {employees.id ? "Update" : "Add"} Employee
               </button>
             </form>
           </div>

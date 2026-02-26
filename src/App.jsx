@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import AddEmp from "./pages/addEmp";
 import ViewEmp from "./pages/viewEmp";
+import Header from "./components/Header";
 
 const App = () => {
   const [employees, setEmployees] = useState({});
   const [list, setList] = useState([]);
   const [hobbies, setHobbies] = useState([]);
   const [error, setError] = useState({});
-
+  const navigator = useNavigate();
   const handleChange = (e) => {
     let { name, value, checked } = e.target;
 
@@ -36,7 +37,8 @@ const App = () => {
     if (!employees.password) err.password = "Please Enter Password.";
     if (!employees.gender) err.gender = "Please Select Gender.";
     if (!employees.city) err.city = "Please Select City.";
-    if (!employees.hobby || employees.hobby.length == 0) err.hobby = "Please Select Hobby.";
+    if (!employees.hobby || employees.hobby.length == 0)
+      err.hobby = "Please Select Hobby.";
     if (!employees.address) err.address = "Please Enter Address.";
     setError(err);
 
@@ -47,16 +49,45 @@ const App = () => {
     e.preventDefault();
 
     if (!validation()) return;
-    let newList = [...list , {...employees , id : Date.now()}]
-    setList(newList)
+
+
+    let newList = [...list];
+    if (employees.id) {
+      newList = newList.map((item)=>{
+        if(item.id == employees.id) return employees
+        return item;
+      })
+    } else {
+      newList = [...list, { ...employees, id: Date.now() }];
+    }
+    setList(newList);
+
+    localStorage.setItem("employeeList", JSON.stringify(newList));
+    navigator("/viewEmp");
     setEmployees({});
     setHobbies([]);
-
-    
   };
-  console.log(list);
+
+  const handleDelete = (id) => {
+    let newList = list.filter((item) => item.id != id);
+    setList(newList);
+    localStorage.setItem("employeeList", JSON.stringify(newList));
+  };
+
+  const handleEdit = (id) => {
+    let data = list.find((item) => item.id === id);
+    setEmployees(data);
+    navigator('/')
+  };
+
+  useEffect(() => {
+    let oldList = JSON.parse(localStorage.getItem("employeeList")) || [];
+    setList(oldList);
+  }, []);
+
   return (
     <>
+      <Header />
       <Routes>
         <Route
           path="/"
@@ -70,7 +101,10 @@ const App = () => {
             />
           }
         />
-        <Route path="/viewEmp" element={<ViewEmp />} />
+        <Route
+          path="/viewEmp"
+          element={<ViewEmp list={list} handleDelete={handleDelete} handleEdit={handleEdit} />}
+        />
       </Routes>
     </>
   );
