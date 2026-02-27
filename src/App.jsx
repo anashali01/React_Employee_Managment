@@ -9,6 +9,7 @@ const App = () => {
   const [list, setList] = useState([]);
   const [hobbies, setHobbies] = useState([]);
   const [error, setError] = useState({});
+  const [searchData , setSearchData] = useState([]);
   const navigator = useNavigate();
   const handleChange = (e) => {
     let { name, value, checked } = e.target;
@@ -85,9 +86,21 @@ const App = () => {
     setList(oldList);
   }, []);
 
+  const handleSearch = (e) =>{
+    
+    const {value} = e.target;
+
+    let newList = list.filter(item => {
+      if(item.name.toLowerCase().includes(value)){
+        return item;    
+      }
+    })
+
+    setSearchData(newList);
+  }
   return (
     <>
-      <Header />
+      <Header handleSearch={handleSearch}/>
       <Routes>
         <Route
           path="/"
@@ -103,7 +116,7 @@ const App = () => {
         />
         <Route
           path="/viewEmp"
-          element={<ViewEmp list={list} handleDelete={handleDelete} handleEdit={handleEdit} />}
+          element={<ViewEmp list={searchData.length > 0 ? searchData : list} handleDelete={handleDelete} handleEdit={handleEdit} />}
         />
       </Routes>
     </>
