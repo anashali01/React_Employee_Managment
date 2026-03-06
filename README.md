@@ -16,8 +16,8 @@ A modern, full-featured employee management application built with React and Vit
 
 | Environment | Link |
 |-------------|------|
-| **Live App** | [Deploy your app →](#) |
-| **Preview** | [Vercel / Netlify / GitHub Pages](#) |
+| **Live App** | [Deploy Link ->](https://react-employee-managment.vercel.app/viewEmp) |
+| **Preview** | [Vercel / Netlify / GitHub Pages](https://react-employee-managment.vercel.app/viewEmp) |
 
 > Replace the links above with your deployed URL once you publish the app (e.g., Vercel, Netlify, or GitHub Pages).
 
