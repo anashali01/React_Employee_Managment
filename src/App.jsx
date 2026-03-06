@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import AddEmp from "./pages/addEmp.jsx";
-import ViewEmp from "./pages/viewEmp.jsx";
+import AddEmp from "./pages/AddEmp.jsx";
+import ViewEmp from "./pages/ViewEmp.jsx";
 import Header from "./components/Header.jsx";
 
 const App = () => {
